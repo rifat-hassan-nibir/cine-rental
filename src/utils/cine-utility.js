@@ -1,5 +1,5 @@
-function getImageUrl(name) {
-  return new URL(`../assets/movie-covers/${name}`, import.meta.url).href;
+function getImageUrl(imageTitle) {
+  return new URL(`../assets/movie-covers/${imageTitle}`, import.meta.url).href;
 }
 
 export { getImageUrl };

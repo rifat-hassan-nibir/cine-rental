@@ -1,6 +1,7 @@
 import { getImageUrl } from "../../utils/cine-utility";
+import cartIcon from "../../assets/tag.svg";
 
-export default function MovieDetailsModal({ movieDetails, onClose }) {
+export default function MovieDetailsModal({ movieDetails, onClose, onAddToCart }) {
   const { cover, title, genre, description, price } = movieDetails;
 
   return (
@@ -18,10 +19,10 @@ export default function MovieDetailsModal({ movieDetails, onClose }) {
 
               <div className="grid lg:grid-cols-2 gap-2">
                 <a
-                  className="bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
-                  href="#"
+                  onClick={onAddToCart}
+                  className="hover:cursor-pointer bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
                 >
-                  <img src="./assets/tag.svg" alt="" />
+                  <img src={cartIcon} alt="cart-icon" />
                   <span>${price} | Add to Cart</span>
                 </a>
                 <a

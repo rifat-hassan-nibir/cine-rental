@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { getImageUrl } from "../../utils/cine-utility";
 import MovieDetailsModal from "./MovieDetailsModal";
 import Rating from "./Rating";
+import { CartContext } from "../../context/CartContext";
+import cartIcon from "../../assets/tag.svg";
 
 export default function MovieCard({ movieDetails }) {
   const [showModal, setShowModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const { cartData, setCartData } = useContext(CartContext);
   const { cover, title, genre, rating, price } = movieDetails;
 
   const handleCloseModal = () => {
@@ -18,10 +21,22 @@ export default function MovieCard({ movieDetails }) {
     setShowModal(true);
   };
 
+  const handleAddToCart = (event, addedMovie) => {
+    event.stopPropagation();
+    const found = cartData.find((item) => item.id === addedMovie.id);
+    if (found) {
+      alert("This movie is already in your cart.");
+      return;
+    }
+    setCartData([...cartData, addedMovie]);
+  };
+
   return (
     <>
-      {showModal && <MovieDetailsModal movieDetails={movieDetails} onClose={handleCloseModal} />}
-      <a onClick={() => handleMovieSelection(movieDetails)} className="hover:cursor-pointer">
+      {showModal && (
+        <MovieDetailsModal movieDetails={movieDetails} onClose={handleCloseModal} onAddToCart={(e) => handleAddToCart(e, movieDetails)} />
+      )}
+      <div onClick={() => handleMovieSelection(movieDetails)} className="hover:cursor-pointer">
         <figure className="p-4 border border-black/10 shadow-sm dark:border-white/10 rounded-xl">
           <img className="w-full object-cover" src={getImageUrl(cover)} alt={title} />
           <figcaption className="pt-4">
@@ -31,15 +46,15 @@ export default function MovieCard({ movieDetails }) {
               <Rating rating={rating} />
             </div>
             <a
+              onClick={(e) => handleAddToCart(e, movieDetails)}
               className="bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
-              href="#"
             >
-              <img src="./assets/tag.svg" alt="" />
+              <img src={cartIcon} alt="cart-icon" />
               <span>${price} | Add to Cart</span>
             </a>
           </figcaption>
         </figure>
-      </a>
+      </div>
     </>
   );
 }

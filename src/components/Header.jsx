@@ -3,10 +3,12 @@ import ring from "../assets/ring.svg";
 import moon from "../assets/icons/moon.svg";
 import shoppingCart from "../assets/shopping-cart.svg";
 import CartDetails from "./cine/CartDetails";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CartContext } from "../context/CartContext";
 
 export default function Header() {
   const [showCartDetails, setShowCartDetails] = useState(false);
+  const { cartData, setCartData } = useContext(CartContext);
 
   const handleCartShow = () => {
     setShowCartDetails(true);
@@ -39,6 +41,11 @@ export default function Header() {
                 href="#"
               >
                 <img src={shoppingCart} width="24" height="24" alt="" />
+                {cartData.length > 0 && (
+                  <span className="absolute top-[-12px] left-[28px] bg-[#12cf6f] text-white text-xs flex justify-center items-center rounded-full w-[24px] h-[24px] px-[2px]">
+                    {cartData.length}
+                  </span>
+                )}
               </a>
             </li>
           </ul>

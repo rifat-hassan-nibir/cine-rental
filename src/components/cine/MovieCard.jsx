@@ -4,6 +4,7 @@ import MovieDetailsModal from "./MovieDetailsModal";
 import Rating from "./Rating";
 import { CartContext } from "../../context/CartContext";
 import cartIcon from "../../assets/tag.svg";
+import { toast } from "react-toastify";
 
 export default function MovieCard({ movieDetails }) {
   const [showModal, setShowModal] = useState(false);
@@ -25,12 +26,18 @@ export default function MovieCard({ movieDetails }) {
     event.stopPropagation();
     const found = state.cartData.find((item) => item.id === addedMovie.id);
     if (found) {
-      alert("This movie is already in your cart.");
+      toast.error(`${addedMovie.title} is already in your cart!`, {
+        position: "top-right",
+      });
       return;
     }
     dispatch({
       type: "ADD_TO_CART",
       payload: { ...addedMovie },
+    });
+
+    toast.success(`${addedMovie.title} has been added to your cart!`, {
+      position: "top-right",
     });
   };
 

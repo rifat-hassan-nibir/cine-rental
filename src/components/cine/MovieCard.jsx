@@ -8,7 +8,7 @@ import cartIcon from "../../assets/tag.svg";
 export default function MovieCard({ movieDetails }) {
   const [showModal, setShowModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const { cartData, setCartData } = useContext(CartContext);
+  const { state, dispatch } = useContext(CartContext);
   const { cover, title, genre, rating, price } = movieDetails;
 
   const handleCloseModal = () => {
@@ -23,12 +23,15 @@ export default function MovieCard({ movieDetails }) {
 
   const handleAddToCart = (event, addedMovie) => {
     event.stopPropagation();
-    const found = cartData.find((item) => item.id === addedMovie.id);
+    const found = state.cartData.find((item) => item.id === addedMovie.id);
     if (found) {
       alert("This movie is already in your cart.");
       return;
     }
-    setCartData([...cartData, addedMovie]);
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: { ...addedMovie },
+    });
   };
 
   return (

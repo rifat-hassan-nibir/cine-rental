@@ -14,9 +14,7 @@ export default function CartItemCard({ movie, onRemoveItem }) {
       </div>
       <div className="flex justify-between gap-4 items-center">
         <button
-          onClick={() => {
-            onRemoveItem(movie.id);
-          }}
+          onClick={() => onRemoveItem(movie)}
           className="hover:cursor-pointer bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white"
         >
           <img className="w-5 h-5" src={deleteIcon} alt="delete-icon" />

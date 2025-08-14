@@ -4,11 +4,13 @@ import { CartContext } from "../../context/CartContext";
 import CartItemCard from "./CartItemCard";
 
 export default function CartDetails({ onClose }) {
-  const { cartData, setCartData } = useContext(CartContext);
+  const { state, dispatch } = useContext(CartContext);
 
-  const handleRemoveFromCart = (id) => {
-    const newMovies = cartData.filter((movie) => movie.id !== id);
-    setCartData([...newMovies]);
+  const handleRemoveFromCart = (movie) => {
+    dispatch({
+      type: "REMOVE_FROM_CART",
+      payload: movie,
+    });
   };
 
   return (
@@ -17,10 +19,10 @@ export default function CartDetails({ onClose }) {
         <div className="bg-white shadow-md dark:bg-[#12141D] rounded-2xl overflow-hidden p-5 md:p-9">
           <h2 className="text-2xl lg:text-[30px] mb-10 font-bold">Your Carts</h2>
           <div className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14">
-            {cartData.length === 0 ? (
+            {state.cartData.length === 0 ? (
               <p className="text-xl">The Cart is empty</p>
             ) : (
-              cartData.map((movie) => <CartItemCard key={movie.id} movie={movie} onRemoveItem={handleRemoveFromCart} />)
+              state.cartData.map((movie) => <CartItemCard key={movie.id} movie={movie} onRemoveItem={handleRemoveFromCart} />)
             )}
           </div>
           <div className="flex items-center justify-end gap-2">
